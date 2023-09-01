@@ -1,0 +1,10 @@
+body {
+    background-color: rgb(250, 240, 255);
+}
+header {
+    background-color: rgb(255, 170, 191);
+}
+
+.form-select {
+    width: 50%;
+}
