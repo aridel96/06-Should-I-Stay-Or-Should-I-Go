@@ -8,3 +8,9 @@ header {
 .form-select {
     width: 50%;
 }
+
+.card {
+    height: 545px;
+    padding: 5px;
+    margin: 10px;
+}
