@@ -1,4 +1,4 @@
-var weatherKey = '02c47388259616ad39c57739369c2864';
+var weatherKey = 'ad8e412062cd1ab247bb3df3edb96e41';
 var latitude
 var longitude
 var weatherAPI = 'https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${weatherKey}';
@@ -36,4 +36,6 @@ function getWeather(city) {
 
 
 
-button.addEventListener('click', getWeather(city))
+button.addEventListener('click', function() {
+    getWeather(city)
+})
