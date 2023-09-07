@@ -4,6 +4,13 @@ var longitude
 
 var geoKey
 
+// var search1
+// var search2
+// var search3
+// var count = 0
+
+var recentSearch = []
+
 var cityEl = document.getElementById("city"); 
 var countryEl = document.getElementById("country")
 
@@ -26,7 +33,7 @@ var button = document.querySelector('button');
 function getWeather(city) {
     city = cityEl.value;
     country = countryEl.value
-    console.log(city + ", " + country)
+    // console.log(city + ", " + country)
 
     if(usCodes.includes(country)){
         var geoCodingAPI = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${country},${unitedStates}&limit=${limit}&appid=${weatherKey}`;         // GeoCoding API - Provide latitude and longtitude when provided city, state and country code
@@ -46,15 +53,22 @@ function getWeather(city) {
             longitude = data[0].lon;
 
             var weatherAPI = `https://api.openweathermap.org/data/2.5/forecast?lat=${latitude}&lon=${longitude}&appid=${weatherKey}`;       // OpenWeather API URL
+            var search = city + ", " + country;
 
-            console.log(weatherAPI);
+            recentSearch.push(search);
+
+            localStorage.setItem("searches", JSON.stringify(recentSearch))
+
+            document.location.href = "./results.html"
 
             fetch(weatherAPI)
-                .then(function() {
-                    document.location.href = "./results.html"
-                    title.textContent = city + " " + country;
+                .then(function(response) {
+                    console.log(response)
+                    var history = localStorage.getItem("Searches")
+                    JSON.parse(history)
 
-                    console.log(city);
+                    console.log(history)
+                    title.textContent = history[history.length - 1];
                 
             })
 
@@ -68,11 +82,27 @@ function getWeather(city) {
 }
 
 
-console.log(window.location.href.split('/')[2])
+// console.log(window.location.href.split('/'))
 
-
-if (window.location.href.split('/')[2] == 'index.html') {
+if (window.location.href.split('/')[8] == 'index.html') {                   // Once deployed change index
     button.addEventListener('click', function() {
         getWeather(city)
     })
 }
+
+
+
+
+// if (count === 0 || count === 3) {
+//     if (count === 3) {
+//         count = 0;
+//     }
+
+//     localStorage.setItem(search1, search);
+// } 
+// else if (count == 1) {
+//     localStorage.setItem(search2, search);
+// }
+// else {
+//     localStorage.setItem(search3, search);
+// }
