@@ -40,7 +40,7 @@ function getWeather(city) {
         .then(function(response) {
             return response.json();
         })
-        
+
         .then(function(data) {
             latitude = data[0].lat; 
             longitude = data[0].lon;
@@ -51,12 +51,10 @@ function getWeather(city) {
 
             fetch(weatherAPI)
                 .then(function() {
-                    button.removeEventListener('click', function() {
-                        console.log("Successfully removed!");
-                    })
-
                     document.location.href = "./results.html"
-                    title.textContent = city + " " + country
+                    title.textContent = city + " " + country;
+
+                    console.log(city);
                 
             })
 
@@ -70,7 +68,11 @@ function getWeather(city) {
 }
 
 
+console.log(window.location.href.split('/')[2])
 
-button.addEventListener('click', function() {
-    getWeather(city)
-})
+
+if (window.location.href.split('/')[2] == 'index.html') {
+    button.addEventListener('click', function() {
+        getWeather(city)
+    })
+}
