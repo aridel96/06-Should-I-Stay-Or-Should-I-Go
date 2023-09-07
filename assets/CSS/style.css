@@ -5,9 +5,14 @@ header {
     background-color: rgb(255, 170, 191);
 }
 
-.form-select {
-    width: 50%;
+#vacationImg {
+    height: 396px;
+    width: auto;
 }
+
+/* .form-control {
+    width: 36%;
+} */
 
 .card {
     height: 545px;
