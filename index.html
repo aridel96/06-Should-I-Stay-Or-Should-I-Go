@@ -19,104 +19,29 @@
     
         <div class="row pb-5">
             <div id="image" class="d-flex justify-content-center col pb-3">
-                <!-- <img src="./assets/images/Beach-Sunset.jpg" alt="Sunset over beach and purple skies" /> -->
-                <!-- <img src="./assets/images/beach-vacay.jpg" alt="Bright Sunrise over a beach" />-->
-                <img src="./assets/images/CarVacay.png" alt="Car parked in front of a beach" />
+                <img src="./assets/images/CarVacay.png" alt="Car parked in front of a beach" id="vacationImg"/>
             </div>
-            <div id="city" class="row d-flex justify-content-center">
-                <select class="form-select col-11 mx-0" aria-label="Default select example">
-                    <option selected>Where to?</option>
+        </div>
 
-                    <!-- <option value="Montgomery">Montgomery, Alabama</option>
-                    <option value="Juneau">Juneau, Alaska</option>
-                    <option value="Phoenix">Phoenix, Arizona</option>    
-                    <option value="Little Rock">Little Rock, Arkansas</option> -->
-
-                    <option value="Sacramento">Sacramento, California</option>
-                    <option value="San Jose">San Jose, California</option>
-
-                    <!-- <option value="Denver">Denver, Colorad</option> -->
-
-                    <option value="Ottawa">Ottawa, Canada</option>
-                    
-                    <!-- <option value="Hartford">Hartford, Connecticut</option> -->
-
-                    <option value="Santo Domingo">Santo Domingo, Dominican Republic</option>
-
-                    <!-- <option value="Dover">Dover, Delaware</option>
-                    <option value="Tallahassee">Tallahassee, Florida</option> -->
-
-                    <option value="Paris">Paris, France</option>
-
-                    <!-- <option value="Atlanta">Atlanta, Georgia</option> -->
-
-                    <option value="Berlin">Berlin, Germany</option>
-                    <option value="Honolulu">Honolulu, Hawaii</option>
-
-                    <!-- <option value="Boise">Boise, Idaho</option>
-                    <option value="Springfield">Springfield, Illinoise</option> -->
-
-                    <option value="New Delhi">New Delhi, India</option>
-
-                    <!-- <option value="Indianopolis">Indianopolis, Indiana</option>
-                    <option value="Des Moines">Des Moines, Iowa</option> -->
-                    
-                    <option value="Rome">Rome, Italy</option>
-
-                    <!-- <option value="Topeka">Topeka, Kansas</option>
-                    <option value="Frankfort">Frankfort, Kentucky</option>
-                    <option value="Baton Rouge">Baton Rouge, Louisiana</option>
-                    <option value="Augusta">Augusta, Maine</option>
-                    <option value="Annapolis">Annapolis, Maryland</option> -->
-
-                    <option value="Boston">Boston, Massachussetts</option>
-                    
-                    <!-- <option value="Lansing">Lansing, Michigan</option>
-                    <option value="Saint Paul">Saint Paul, Minnesota</option>
-                    <option value="Jackson">Jackson, Mississippi</option>
-                    <option value="Jefferson">Jefferson City, Missouri</option>
-                    <option value="Helena">Helena, Montana</option>
-                    <option value="Lincoln">Lincoln, Nebraska</option>
-                    <option value="Carson City">Carson City, Nevada</option>
-                    <option value="Concord">Concord, New Hampshire</option> -->
-
-                    <option value="Trenton">Trenton, New Jersey</option>
-                    
-                    <!-- <option value="Santa Fe">Santa Fe, New Mexico</option> -->
-
-                    <option value="Albany">Albany, New York</option>
-                    <option value="New York">New York, New York</option>
-                    <option value="Wellington">Wellington, New Zealand</option>
-
-
-                    <!-- <option value="Raleigh">Raleigh, North Carolina</option>
-                    <option value="Bismarck">Bismarck, North Dakota</option>
-                    <option value="Columbus">Columbus, Ohio</option>
-                    <option value="Oklahoma">Oklahoma City, Oklahoma</option> -->
-                    
-                    <option value="Salem">Salem, Oregon</option>
-                    <option value="Harrisburg">Harrisburg, Pennsylvania</option>
-                    <option value="San Juan">San Juan, Puerto Rico</option>
-
-                    <option value="Providence">Providence, Rhode Island</option>
-
-                    <!-- <option value="Columbia">Columbia, South Carolina</option>
-                    <option value="Pierre">Pierre, South Dakota</option>
-                    <option value="Nashville">Nashville, Tennessee</option>
-                    <option value="Austin">Austin, Texas</option>
-                    <option value="Salt Lake City">Salt Lake City, Utah</option> -->
-                    
-                    <option value="Montpelier">Montpelier, Vermont</option>
-                    <option value="Richmond">Richmond, Virginia</option>
-                    <option value="Olympia">Olympia, Washington</option>
-                    
-                    <!-- <option value="Charleston">Charleston, West Virginia</option>
-                    <option value="Madison">Madison, Wisconsin</option>
-                    <option value="Cheyenne">Cheyenne, Wyoming</option> -->
-                    
-                    </select>
-                <button type="button" class="btn btn-info col-1">Search</button>
-            </div>
+        <div class="row d-flex justify-content-center">
+            <form class="row">
+                <div class="col">
+                        <h3 for="city" class="form-label">Where to?</h3>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <input type="email" class="form-control" id="city" placeholder="Please enter a city">
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" id="country" placeholder="Please enter a 2 character state/country code ie. CA">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <button type="button" class="btn btn-info align-i">Search</button>
+                    </div>
+                </div>
+            </form>
         </div>
     
         <footer class="row">
