@@ -165,21 +165,69 @@ function getWeather(city) {
                 
                     fetch(weatherAPI)
                         .then(function(weatherData) {
-                            history = JSON.parse(localStorage.getItem("search"))        // Get item from local storage and convert to object
+                            weather = weatherData.json();
 
-                            console.log(weatherData.json())
-
-                            // searchResults = history[0]
-
-
-                            // document.location.href = "./results.html"
-
-                            return weatherData.json();                
+                            return weather;                
                         })
 
                         .then(function(info) {
-
                             // console.log(info);
+
+                            var day
+                            var temp
+                            var icon
+                            var humidity
+                            var windSpeed
+
+                            var dateList = info.list
+                            // console.log(dateList[0].dt_txt)
+
+                            for (var i = 1; i > 6; i++) {
+                                console.log("Hello!")
+
+                                day = "day" + i;
+                                icon = "d" + i + "Icon";
+                                temp = "d" + i + "Temp";
+                                humidity = "d" + "Humidity";
+                                windSpeed = "d" + i + "Wind";
+
+                                var date = document.getElementById(day);
+                                var weatherIcon = document.getElementById(icon);
+                                var temperature = document.getElementById(temp);
+                                var humid = document.getElementById(humidity);
+                                var wind = document.getElementById(windSpeed);
+
+                                for(var a = 0; a > dateList.length; a++) {
+                                    console.log(dateList[a].dt_txt)
+                                }
+
+                                // date.textContent = info.
+            
+                                // var crntIcon = document.getElementById('crntIcon');
+                                // icon = currentWeather.weather[0].icon;
+                                // crntIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`
+            
+                                // var crntTemp = document.getElementById('crntTemp');
+                                // crntTemp.textContent = "Temperature: " + currentWeather.main.temp;
+            
+                                // var crntHumidity = document.getElementById('crntHumidity');
+                                // crntHumidity.textContent = "Humidity: " + currentWeather.main.humidity;
+            
+                                // var crntWind = document.getElementById('crntWind');
+                                // crntWind.textContent = "Wind Speeds: " + currentWeather.wind.speed
+
+                            }
+
+
+
+
+
+
+
+
+
+
+
 
                         })
                 })
@@ -199,6 +247,7 @@ if (window.location.href.split('/')[window.location.href.split('/').length - 1] 
 
 
 
+// history = JSON.parse(localStorage.getItem("search"))        // Get item from local storage and convert to object
 
 // if (count === 0 || count === 3) {
 //     if (count === 3) {
