@@ -8,7 +8,7 @@ var city
 var country
 
 var cityEl = document.getElementById("city"); 
-var countryEl = document.getElementById("country")
+// var countryEl = document.getElementById("country")
 
 var limit = 5
 var dateCounter = 1     // used to keep track of dates for card
@@ -35,20 +35,13 @@ var a3
 
 var today = dayjs();
 
-function getWeather(city) {
-    city = cityEl.value;                    
-    country = countryEl.value
+function getRecentSearch(city) {    
+    var geoCodingAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=${limit}&appid=${weatherKey}`;         
 
-    console.log(city + ", " + country)
+    return apiCall(geoCodingAPI)
+}
 
-    if(usCodes.includes(country)){
-        var geoCodingAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${country},${unitedStates}&limit=${limit}&appid=${weatherKey}`;         // GeoCoding API - Provide latitude and longtitude when provided city, state and country code
-    }
-
-    else {
-        var geoCodingAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${country}&limit=${limit}&appid=${weatherKey}`;         
-    }
-    
+function apiCall(geoCodingAPI) {
     fetch(geoCodingAPI)
         .then(function(response) {
             return response.json();
@@ -61,8 +54,12 @@ function getWeather(city) {
             // recentSearch[count] = city + ", " + country             // Sets count as the key and the city and state as the value for recentSearch object
 
             city = data[0].name;
-            console.log(country)
-            recentSearch.push(city + ", " + country)
+            // console.log(country)
+
+            // recentSearch.push(city + ", " + country)
+
+            recentSearch.push(city)
+
             localStorage.setItem("search", JSON.stringify(recentSearch))        // Turn object to string to save in localstorage
 
             currentWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weatherKey}&units=imperial`
@@ -113,7 +110,9 @@ function getWeather(city) {
                         </div>`
 
                     var title = document.querySelector('h2');
-                    title.textContent = currentWeather.name + ", " + country;
+                    // title.textContent = currentWeather.name + ", " + country;
+
+                    title.textContent = currentWeather.name;
 
                     divEl.innerHTML =  `
                         <div class="card" style="width: 18rem;">
@@ -263,57 +262,103 @@ function getWeather(city) {
                         })
                 })
     })
+}
 
+function getWeather(city) {
+    city = cityEl.value;    
+                    
+    // country = countryEl.value
+
+    // console.log(city + ", " + country)
+
+    // if(usCodes.includes(country)){
+    //     var geoCodingAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${country},${unitedStates}&limit=${limit}&appid=${weatherKey}`;         // GeoCoding API - Provide latitude and longtitude when provided city, state and country code
+    // }
+
+    // else {
+    //     var geoCodingAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${country}&limit=${limit}&appid=${weatherKey}`;         
+    // }
+
+    var geoCodingAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=${limit}&appid=${weatherKey}`;         
+
+    return apiCall(geoCodingAPI)
+}
+
+
+var footerEl = document.querySelector('footer');
+
+if (recentSearch.length >= 1){
+    if (recentSearch.length >= 2){
+        if (recentSearch.length >= 3){        
+            // var li3 = document.createElement('li');
+            // a3 = document.createElement('a');
+
+            // li3.classList.add("list-group-item", "list-group-item-info");
+            // a3.classList.add("list-group-item-action");
+
+            var btn3 = document.getElementById('btn3')
+            btn3.textContent = recentSearch[recentSearch.length - 3];
     
-    if (recentSearch.length >= 1){
-        var li1 = document.createElement('li');
-        a1 = document.createElement('a');
+            // li3.appendChild(a3);
+            // searchList.appendChild(li3);
 
-        li1.classList.add("list-group-item", "list-group-item-info");
-        a1.classList.add("list-group-item-action");
-        a1.textContent = recentSearch[recentSearch.length - 1];
+            city = btn3.innerText;
+            console.log(city)
+        
+            btn3.addEventListener('click', function() {
+                 getRecentSearch(city)
+            })
+        }
 
-        li1.appendChild(a1);
-        searchList.appendChild(li1);
+        // var li2 = document.createElement('li');
+        // btn2 = document.createElement('button');
 
-        var searchArr = a1.textContent.split(",")
-        city = searchArr[0];
-        var newCountry = searchArr[1]
+        // li2.classList.add("list-group-item", "list-group-item-info");
+        // a2.classList.add("list-group-item-action");
 
-        a1.addEventListener('click', function() {
-            debugger
-            getWeather(city)
+        var btn2 = document.getElementById('btn2');
+        btn2.textContent = recentSearch[recentSearch.length - 2];
+
+        // li2.appendChild(a2);
+        // searchList.appendChild(li2);
+
+        city = btn2.innerText;
+        console.log(city)
+    
+        btn2.addEventListener('click', function() {
+             getRecentSearch(city)
         })
 
-        if (recentSearch.length >= 2){
-            var li2 = document.createElement('li');
-            a2 = document.createElement('a');
-
-            li2.classList.add("list-group-item", "list-group-item-info");
-            a2.classList.add("list-group-item-action");
-            a2.textContent = recentSearch[recentSearch.length - 2];
-    
-            li2.appendChild(a2);
-            searchList.appendChild(li2);
-
-            if (recentSearch.length >= 3){        
-                var li3 = document.createElement('li');
-                a3 = document.createElement('a');
-
-                li3.classList.add("list-group-item", "list-group-item-info");
-                a3.classList.add("list-group-item-action");
-                a3.textContent = recentSearch[recentSearch.length - 3];
-        
-                li3.appendChild(a3);
-                searchList.appendChild(li3);
-            }
-        }
-    } 
-    else {
-        var h3EL = document.getElementById('footerTxt');
-        h3EL.style.display = 'none';
     }
-}
+
+    // footerEl.style.display = 'flex';
+
+    // var li1 = document.createElement('li');
+    // a1 = document.createElement('a');
+
+    // li1.classList.add("list-group-item", "list-group-item-info");
+    // a1.classList.add("list-group-item-action");
+    
+    var btn1 = document.getElementById('btn1')
+    btn1.textContent = recentSearch[recentSearch.length - 1];
+
+    // li1.appendChild(a1);
+    // searchList.appendChild(li1);
+
+    // var searchArr = a1.textContent.split(",")
+    // city = searchArr[0];
+    city = btn1.innerText;
+    console.log(city)
+    // var newCountry = searchArr[1]
+
+    btn1.addEventListener('click', function() {
+         getRecentSearch(city)
+    })
+} 
+// else {
+//     footerEl.style.display = 'none';
+// }
+
 
 
 button.addEventListener('click', function() {

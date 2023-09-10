@@ -26,19 +26,17 @@
 
         <div class="row d-flex justify-content-center" id="inputEl">
             <form class="row">
-                <div class="col">
+                <div class="col d-flex justify-content-center">
                         <h3 for="city" class="form-label">Where to?</h3>
                 </div>
                 <div class="row">
-                    <div class="col">
-                        <input type="email" class="form-control" id="city" placeholder="Please enter a city">
+                    <div class="col-8">
+                        <input type="email" class="form-control d-flex justify-content-center" id="city" placeholder="Please enter a city">
                     </div>
-                    <div class="col">
+                    <!-- <div class="col">
                         <input type="text" class="form-control" id="country" placeholder="Please enter a 2 character state/country code ie. CA">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
+                    </div> -->
+                    <div class="col-4 d-flex justify-content-center">
                         <button type="button" class="btn btn-info align-i">Search</button>
                     </div>
                 </div>
@@ -47,7 +45,12 @@
     
         <footer class="row pt-5">
             <h3 id="footerTxt" class="col-4"><a>Recent Searches</a></h3>
-            <ul id="searchList" class="col-8 list-group list-group-horizontal d-flex justify-content-end"></ul>       <!--Hook for list of recent searches-->
+            <!-- <ul id="searchList" class="col-8 list-group list-group-horizontal d-flex justify-content-end"></ul>       Hook for list of recent searches -->
+            <div class="btn-group col-8" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-info col col-md-3" id="btn1"></button>
+                <button type="button" class="btn btn-info col col-md-3" id="btn2"></button>
+                <button type="button" class="btn btn-info col col-md-3" id="btn3"></button>
+              </div>
         </footer>
 
         <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"integrity="sha256-iu/zLUB+QgISXBLCW/mcDi/rnf4m4uEDO0wauy76x7U="crossorigin="anonymous"></script>
