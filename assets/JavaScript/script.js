@@ -16,6 +16,7 @@ var country
 
 var limit = 5
 var count = 0               // counter to keep track of recent searches in recentSearch array
+var dateCounter = 1     // used to keep track of dates for card
 
 var unitedStates = "US"
 var usCodes = [                                 // List of US State codes for the openWeather's GeoCoding API
@@ -63,9 +64,10 @@ function getWeather(city) {
             
 
             fetch(currentWeatherAPI)
-                .then(function(currentData) {
-                    imageDiv.innerHTML = " ";               // Set elements innerHTML to blank to reset page
-                    divEl.innerHTML = " ";
+                .then(function(currentData) {             
+                    // imageDiv.remove()                   // Removes HTML element
+                    imageDiv.innerHTML = " ";
+                    divEl.innerHTML = " ";              // Set elements innerHTML to blank to reset page
                     header.innerHTML = " ";
 
                     return currentData.json();
@@ -74,29 +76,40 @@ function getWeather(city) {
                 .then(function(currentWeather) {
                     // console.log(currentWeather);
 
-                    divEl.classList = [];
-                    divEl.classList.add("row", "pb-5");
+                    divEl.classList = [];                   // Set the class for the element to a blank array meaning the element has no CSS classes
+                    divEl.classList.add("row", "pt-3");
 
                     header.innerHTML = `                
                         <h1></h1>
                         <a href="./index.html">
-                            <i class="fa-solid fa-house"> Try Again?</i>
+                            <i class="fa-solid fa-house bs-info"> Try Again?</i>
                         </a>`
+
+                    header.classList.add("pb-3")
 
                     var title = document.querySelector('h1');
                     title.textContent = currentWeather.name + ", " + country;
 
-                    divEl.innerHTML =  `
-                        <div class="card currentDate" style="width: 18rem;">
-                            <div class="card-body text-center">
-                                <h2 id="crntDate"></h2>                   <!--Hook for current date-->
-                                <img id="crntIcon" alt="weather icon"></img>                     <!--Hook for current weather icon-->
-                                <p class="card-text" id="crntTemp">Temperature: </p>
-                                <p class="card-text" id="crntHumidity">Humidity: </p>
-                                <p id="crntWind">Wind Speeds: </p>
+                    imageDiv.classList = [];
+                    imageDiv.classList.add("d-flex", "justify-content-center", "pt-3")
+                    imageDiv.innerHTML = `
+                        <div class="card mb-3 today">
+                            <div class="row g-0">
+                                <div class="col-md-4 d-flex align-items-center">
+                                    <img class="img-fluid rounded-start" id="crntIcon" alt="weather icon"></img>                     <!--Hook for current weather icon-->
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <h2 class="card-title" id="crntDate"></h2>                   <!--Hook for current date-->
+                                        <p class="card-text" id="crntTemp">Temperature: </p>
+                                        <p class="card-text" id="crntHumidity">Humidity: </p>
+                                        <p class="card-text" id="crntWind">Wind Speeds: </p>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </div>`
 
+                    divEl.innerHTML =  `
                         <div class="card" style="width: 18rem;">
                             <div class="card-body text-center">
                                 <h2 id="day1"></h2>
@@ -151,8 +164,8 @@ function getWeather(city) {
                     crntDate.textContent =  today.format('dddd, MMMM DD, YYYY')
 
                     var crntIcon = document.getElementById('crntIcon');
-                    icon = currentWeather.weather[0].icon;
-                    crntIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`
+                    icon = currentWeather.weather[0].icon;                                      // Returns icon code used in the url for the OpenWeather icons
+                    crntIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`          // Sets the src for crntIcon element
 
                     var crntTemp = document.getElementById('crntTemp');
                     crntTemp.textContent = "Temperature: " + currentWeather.main.temp;
@@ -173,7 +186,7 @@ function getWeather(city) {
                         })
 
                         .then(function(info) {
-                            // console.log(info);
+                            console.log(info);
 
                             var day
                             var temp
@@ -187,7 +200,7 @@ function getWeather(city) {
                                 day = "day" + i;
                                 icon = "d" + i + "Icon";
                                 temp = "d" + i + "Temp";
-                                humidity = "d" + "Humidity";
+                                humidity = "d" + i + "Humidity";
                                 windSpeed = "d" + i + "Wind";
 
                                 var date = document.getElementById(day);                // Uses the variables defined above to access the html elements for each corresponding date
@@ -196,29 +209,31 @@ function getWeather(city) {
                                 var humid = document.getElementById(humidity);
                                 var wind = document.getElementById(windSpeed);
 
-                                for(var a = 0; a < dateList.length; a++) {
-                                    var time = dateList[a].dt_txt
+                                for(var a = 0; a < dateList.length; a++) {                  // For loop to iterate through the list of dates returned from OpenWeather API
+                                    var time = dateList[a].dt_txt                          // Returns date and time
                                     
-                                    var timeRounded = Math.round((today.format('HH')) / 3) * 3
+                                    // var timeRounded = Math.round((today.format('HH')) / 3) * 3      // Round up or down by 3 the current time in military format since OpenWeather API returns date and time in 3 hour intervals
+                                    var days = dateList[a].dt_txt.slice(0, 10);         // Returns the date from OpenWeather API
+                                   
+                                    if ((dateList[a].dt_txt.slice(8, 10)) == (parseInt(today.format('DD')) + dateCounter)) {
+                                        nineAM = "15"
 
-                                    if ((time[11] + time[12]) == timeRounded) {
-                                        alert("Hello!")
-                                        var days = dateList[a].dt_txt.slice(0, 10);
-
-                                        console.log(days)
-
-                                        date.textContent = today($(days)).format('dddd, MMMM DD, YYYY')
-            
-                                        icon = dateList[a].weather[0].icon;
-                                        weatherIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`
+                                        if ((time[11] + time[12]) == nineAM) {             
+                                            date.textContent = dayjs(days).format('dddd, MMMM DD, YYYY')          // Formats the date returned from OpenWeather API using dayjs
                     
-                                        temperature.textContent = "Temperature: " + dateList[a].main.temp;
-                    
-                                        humid.textContent = "Humidity: " + dateList[a].main.humidity;
-                    
-                                        wind.textContent = "Wind Speeds: " + dateList[a].wind.speed;
+                                            icon = dateList[a].weather[0].icon;
+                                            weatherIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`
+                            
+                                            temperature.textContent = "Temperature: " + dateList[a].main.temp;
+                            
+                                            humid.textContent = "Humidity: " + dateList[a].main.humidity;
+                            
+                                            wind.textContent = "Wind Speeds: " + dateList[a].wind.speed;
+                                        }
                                     }
                                 }
+
+                                dateCounter++
                             }
                         })
                 })
@@ -228,9 +243,7 @@ function getWeather(city) {
 }
 
 
-// console.log(window.location.href.split('/'))
-
-if (window.location.href.split('/')[window.location.href.split('/').length - 1] == 'index.html') {                   // Once deployed change index
+if (window.location.href.split('/')[window.location.href.split('/').length - 1] == 'index.html') {              
     button.addEventListener('click', function() {
         getWeather(city)
     })
@@ -238,18 +251,12 @@ if (window.location.href.split('/')[window.location.href.split('/').length - 1] 
 
 
 
-// history = JSON.parse(localStorage.getItem("search"))        // Get item from local storage and convert to object
-
-// if (count === 0 || count === 3) {
-//     if (count === 3) {
-//         count = 0;
-//     }
-
-//     localStorage.setItem(search1, search);
-// } 
-// else if (count == 1) {
-//     localStorage.setItem(search2, search);
-// }
-// else {
-//     localStorage.setItem(search3, search);
-// }
+// {/* <div class="card currentDate" style="width: 18rem;">
+// <div class="card-body text-center">
+//     <h2 id="crntDate"></h2>                   <!--Hook for current date-->
+//     <img id="crntIcon" alt="weather icon"></img>                     <!--Hook for current weather icon-->
+//     <p class="card-text" id="crntTemp">Temperature: </p>
+//     <p class="card-text" id="crntHumidity">Humidity: </p>
+//     <p class="card-text" id="crntWind">Wind Speeds: </p>
+// </div>
+// </div> */}
