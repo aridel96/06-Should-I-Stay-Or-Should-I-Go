@@ -4,11 +4,11 @@ var longitude
 
 var recentSearch = JSON.parse(localStorage.getItem("search")) || []         // Object holding all recent searches for localstorage
 
-var cityEl = document.getElementById("city"); 
-var countryEl = document.getElementById("country")
-
 var city
 var country
+
+var cityEl = document.getElementById("city"); 
+var countryEl = document.getElementById("country")
 
 var limit = 5
 var dateCounter = 1     // used to keep track of dates for card
@@ -29,11 +29,16 @@ var icon;
 
 var searchList = document.getElementById('searchList');
 
+var a1
+var a2
+var a3
+
 var today = dayjs();
 
 function getWeather(city) {
     city = cityEl.value;                    
     country = countryEl.value
+
     // console.log(city + ", " + country)
 
     if(usCodes.includes(country)){
@@ -259,7 +264,7 @@ function getWeather(city) {
 
     if (recentSearch.length >= 1){
         var li1 = document.createElement('li');
-        var a1 = document.createElement('a');
+        a1 = document.createElement('a');
 
         li1.classList.add("list-group-item", "list-group-item-info");
         a1.classList.add("list-group-item-action");
@@ -268,13 +273,17 @@ function getWeather(city) {
         li1.appendChild(a1);
         searchList.appendChild(li1);
 
-        // var splitIndex = a1.textContent.indexOf(",")
-        // city = a1.textContent.substring(0, splitIndex);
-        // country = a1.textContent.substring((splitIndex + 1), (a1.textContent.length))
+        var splitIndex = a1.textContent.indexOf(",")
+        city = a1.innerText.substring(0, splitIndex);
+        country = a1.innerHTML.substring((splitIndex + 1), (a1.innerText.length))
+
+        a1.addEventListener('click', function() {
+            getWeather(city)
+        })
 
         if (recentSearch.length >= 2){
             var li2 = document.createElement('li');
-            var a2 = document.createElement('a');
+            a2 = document.createElement('a');
 
             li2.classList.add("list-group-item", "list-group-item-info");
             a2.classList.add("list-group-item-action");
@@ -285,7 +294,7 @@ function getWeather(city) {
 
             if (recentSearch.length >= 3){        
                 var li3 = document.createElement('li');
-                var a3 = document.createElement('a');
+                a3 = document.createElement('a');
 
                 li3.classList.add("list-group-item", "list-group-item-info");
                 a3.classList.add("list-group-item-action");
@@ -306,6 +315,15 @@ function getWeather(city) {
 button.addEventListener('click', function() {
     getWeather(city)
 })
+
+
+
+// a2.addEventListener('click', function() {
+//     getWeather(city)
+// })
+// button.addEventListener('click', function() {
+//     getWeather(city)
+// })
 
 // if (window.location.href.split('/')[window.location.href.split('/').length - 1] == 'index.html') {              
 //     button.addEventListener('click', function() {
