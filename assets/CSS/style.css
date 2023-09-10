@@ -1,33 +1,25 @@
 body {
     background-color: rgb(250, 240, 255);
 }
+
 header {
     background-color: rgb(255, 170, 191);
 }
-/* 
-#backHome {
-    padding-bottom: 500px;
-} */
 
 #vacationImg {
     height: 396px;
     width: auto;
 }
 
-/* .form-control {
-    width: 36%;
-} */
-
 .card {
     height: 369px;
     padding: 5px;
     margin: 10px;
-}
+    background-color: rgb(249, 205, 216);
 
-.today {
-    height: 275px;
 }
 
 .currentDate {
-    box-shadow: 0 8px 16px 0 rgb(94, 189, 240)
+    height: 275px;
+    box-shadow: 0 8px 16px 0 rgb(94, 189, 240);
 }

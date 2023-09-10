@@ -2,11 +2,7 @@ var weatherKey = 'ad8e412062cd1ab247bb3df3edb96e41';                    // API k
 var latitude                                                            // API Url Parameters
 var longitude
 
-var geoKey
-
-var recentSearch = {}           // Object holding all recent searches for localstorage
-var history
-var searchResults 
+var recentSearch = JSON.parse(localStorage.getItem("search")) || []         // Object holding all recent searches for localstorage
 
 var cityEl = document.getElementById("city"); 
 var countryEl = document.getElementById("country")
@@ -15,7 +11,6 @@ var city
 var country
 
 var limit = 5
-var count = 0               // counter to keep track of recent searches in recentSearch array
 var dateCounter = 1     // used to keep track of dates for card
 
 var unitedStates = "US"
@@ -31,6 +26,8 @@ var imageDiv = document.getElementById("image");
 var divEl = document.getElementById("inputEl");
 var header = document.getElementById('heading');
 var icon;
+
+var searchList = document.getElementById('searchList');
 
 var today = dayjs();
 
@@ -56,12 +53,13 @@ function getWeather(city) {
             latitude = data[0].lat; 
             longitude = data[0].lon;
  
-            recentSearch[count] = city + ", " + country             // Sets count as the key and the city and state as the value for recentSearch object
+            // recentSearch[count] = city + ", " + country             // Sets count as the key and the city and state as the value for recentSearch object
 
+            city = data[0].name;
+            recentSearch.push(city + ", " + country)
             localStorage.setItem("search", JSON.stringify(recentSearch))        // Turn object to string to save in localstorage
 
             currentWeatherAPI = `https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${weatherKey}&units=imperial`
-            
 
             fetch(currentWeatherAPI)
                 .then(function(currentData) {             
@@ -93,7 +91,7 @@ function getWeather(city) {
                     imageDiv.classList = [];
                     imageDiv.classList.add("d-flex", "justify-content-center", "pt-3")
                     imageDiv.innerHTML = `
-                        <div class="card mb-3 today">
+                        <div class="card mb-3 currentDate">
                             <div class="row g-0">
                                 <div class="col-md-4 d-flex align-items-center">
                                     <img class="img-fluid rounded-start" id="crntIcon" alt="weather icon"></img>                     <!--Hook for current weather icon-->
@@ -186,7 +184,7 @@ function getWeather(city) {
                         })
 
                         .then(function(info) {
-                            console.log(info);
+                            // console.log(info);
 
                             var day
                             var temp
@@ -213,10 +211,14 @@ function getWeather(city) {
                                     var time = dateList[a].dt_txt                          // Returns date and time
                                     
                                     // var timeRounded = Math.round((today.format('HH')) / 3) * 3      // Round up or down by 3 the current time in military format since OpenWeather API returns date and time in 3 hour intervals
+                                    
                                     var days = dateList[a].dt_txt.slice(0, 10);         // Returns the date from OpenWeather API
                                    
                                     if ((dateList[a].dt_txt.slice(8, 10)) == (parseInt(today.format('DD')) + dateCounter)) {
-                                        nineAM = "15"
+                                        
+                                        var index0 = dateList[0].dt_txt
+                                        nineAM = index0[11] + index0[12]
+                                        compareTime = (parseInt(nineAM) - 3)
 
                                         if ((time[11] + time[12]) == nineAM) {             
                                             date.textContent = dayjs(days).format('dddd, MMMM DD, YYYY')          // Formats the date returned from OpenWeather API using dayjs
@@ -229,6 +231,21 @@ function getWeather(city) {
                                             humid.textContent = "Humidity: " + dateList[a].main.humidity;
                             
                                             wind.textContent = "Wind Speeds: " + dateList[a].wind.speed;
+                                        } 
+
+                                        if (dateCounter == 5) {
+                                            if ((time[11] + time[12]) == ("0" + compareTime)) {             
+                                                date.textContent = dayjs(days).format('dddd, MMMM DD, YYYY')          // Formats the date returned from OpenWeather API using dayjs
+                        
+                                                icon = dateList[a].weather[0].icon;
+                                                weatherIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`
+                                
+                                                temperature.textContent = "Temperature: " + dateList[a].main.temp;
+                                
+                                                humid.textContent = "Humidity: " + dateList[a].main.humidity;
+                                
+                                                wind.textContent = "Wind Speeds: " + dateList[a].wind.speed;
+                                            } 
                                         }
                                     }
                                 }
@@ -239,15 +256,62 @@ function getWeather(city) {
                 })
     })
 
-    count++                         // increment count by 1
+
+    if (recentSearch.length >= 1){
+        var li1 = document.createElement('li');
+        var a1 = document.createElement('a');
+
+        li1.classList.add("list-group-item", "list-group-item-info");
+        a1.classList.add("list-group-item-action");
+        a1.textContent = recentSearch[recentSearch.length - 1];
+
+        li1.appendChild(a1);
+        searchList.appendChild(li1);
+
+        // var splitIndex = a1.textContent.indexOf(",")
+        // city = a1.textContent.substring(0, splitIndex);
+        // country = a1.textContent.substring((splitIndex + 1), (a1.textContent.length))
+
+        if (recentSearch.length >= 2){
+            var li2 = document.createElement('li');
+            var a2 = document.createElement('a');
+
+            li2.classList.add("list-group-item", "list-group-item-info");
+            a2.classList.add("list-group-item-action");
+            a2.textContent = recentSearch[recentSearch.length - 2];
+    
+            li2.appendChild(a2);
+            searchList.appendChild(li2);
+
+            if (recentSearch.length >= 3){        
+                var li3 = document.createElement('li');
+                var a3 = document.createElement('a');
+
+                li3.classList.add("list-group-item", "list-group-item-info");
+                a3.classList.add("list-group-item-action");
+                a3.textContent = recentSearch[recentSearch.length - 3];
+        
+                li3.appendChild(a3);
+                searchList.appendChild(li3);
+            }
+        }
+    } 
+    else {
+        var h3EL = document.getElementById('footerTxt');
+        h3EL.style.display = 'none';
+    }
 }
 
 
-if (window.location.href.split('/')[window.location.href.split('/').length - 1] == 'index.html') {              
-    button.addEventListener('click', function() {
-        getWeather(city)
-    })
-}
+button.addEventListener('click', function() {
+    getWeather(city)
+})
+
+// if (window.location.href.split('/')[window.location.href.split('/').length - 1] == 'index.html') {              
+//     button.addEventListener('click', function() {
+//         getWeather(city)
+//     })
+// }
 
 
 
