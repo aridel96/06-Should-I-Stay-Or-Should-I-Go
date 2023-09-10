@@ -39,7 +39,7 @@ function getWeather(city) {
     city = cityEl.value;                    
     country = countryEl.value
 
-    // console.log(city + ", " + country)
+    console.log(city + ", " + country)
 
     if(usCodes.includes(country)){
         var geoCodingAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${country},${unitedStates}&limit=${limit}&appid=${weatherKey}`;         // GeoCoding API - Provide latitude and longtitude when provided city, state and country code
@@ -61,6 +61,7 @@ function getWeather(city) {
             // recentSearch[count] = city + ", " + country             // Sets count as the key and the city and state as the value for recentSearch object
 
             city = data[0].name;
+            console.log(country)
             recentSearch.push(city + ", " + country)
             localStorage.setItem("search", JSON.stringify(recentSearch))        // Turn object to string to save in localstorage
 
@@ -82,16 +83,14 @@ function getWeather(city) {
                     divEl.classList = [];                   // Set the class for the element to a blank array meaning the element has no CSS classes
                     divEl.classList.add("row", "pt-3");
 
-                    header.innerHTML = `                
-                        <h1></h1>
+                    header.innerHTML = `
+                        <h1>Should I Stay or Should I Go?</h1>
+                        <p>Your 5 day weather forecast to help you plan the perfect getaway</p>
                         <a href="./index.html">
                             <i class="fa-solid fa-house bs-info"> Try Again?</i>
                         </a>`
 
                     header.classList.add("pb-3")
-
-                    var title = document.querySelector('h1');
-                    title.textContent = currentWeather.name + ", " + country;
 
                     imageDiv.classList = [];
                     imageDiv.classList.add("d-flex", "justify-content-center", "pt-3")
@@ -103,7 +102,8 @@ function getWeather(city) {
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h2 class="card-title" id="crntDate"></h2>                   <!--Hook for current date-->
+                                        <h2 class="card-title" id="title"></h2>
+                                        <h3 class="card-text" id="crntDate"></h3>                   <!--Hook for current date-->
                                         <p class="card-text" id="crntTemp">Temperature: </p>
                                         <p class="card-text" id="crntHumidity">Humidity: </p>
                                         <p class="card-text" id="crntWind">Wind Speeds: </p>
@@ -111,6 +111,9 @@ function getWeather(city) {
                                 </div>
                             </div>
                         </div>`
+
+                    var title = document.querySelector('h2');
+                    title.textContent = currentWeather.name + ", " + country;
 
                     divEl.innerHTML =  `
                         <div class="card" style="width: 18rem;">
@@ -261,7 +264,7 @@ function getWeather(city) {
                 })
     })
 
-
+    
     if (recentSearch.length >= 1){
         var li1 = document.createElement('li');
         a1 = document.createElement('a');
@@ -273,11 +276,12 @@ function getWeather(city) {
         li1.appendChild(a1);
         searchList.appendChild(li1);
 
-        var splitIndex = a1.textContent.indexOf(",")
-        city = a1.innerText.substring(0, splitIndex);
-        country = a1.innerHTML.substring((splitIndex + 1), (a1.innerText.length))
+        var searchArr = a1.textContent.split(",")
+        city = searchArr[0];
+        var newCountry = searchArr[1]
 
         a1.addEventListener('click', function() {
+            debugger
             getWeather(city)
         })
 
