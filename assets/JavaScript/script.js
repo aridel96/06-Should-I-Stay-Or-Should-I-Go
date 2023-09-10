@@ -37,11 +37,11 @@ function getWeather(city) {
     // console.log(city + ", " + country)
 
     if(usCodes.includes(country)){
-        var geoCodingAPI = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${country},${unitedStates}&limit=${limit}&appid=${weatherKey}`;         // GeoCoding API - Provide latitude and longtitude when provided city, state and country code
+        var geoCodingAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${country},${unitedStates}&limit=${limit}&appid=${weatherKey}`;         // GeoCoding API - Provide latitude and longtitude when provided city, state and country code
     }
 
     else {
-        var geoCodingAPI = `http://api.openweathermap.org/geo/1.0/direct?q=${city},${country}&limit=${limit}&appid=${weatherKey}`;         
+        var geoCodingAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${country}&limit=${limit}&appid=${weatherKey}`;         
     }
     
     fetch(geoCodingAPI)
