@@ -4,6 +4,10 @@ body {
 header {
     background-color: rgb(255, 170, 191);
 }
+/* 
+#backHome {
+    padding-bottom: 500px;
+} */
 
 #vacationImg {
     height: 396px;
@@ -15,7 +19,15 @@ header {
 } */
 
 .card {
-    height: 545px;
+    height: 369px;
     padding: 5px;
     margin: 10px;
+}
+
+.today {
+    height: 275px;
+}
+
+.currentDate {
+    box-shadow: 0 8px 16px 0 rgb(94, 189, 240)
 }
