@@ -31,6 +31,8 @@ var divEl = document.getElementById("inputEl");
 var header = document.getElementById('heading');
 var icon;
 
+var today = dayjs();
+
 function getWeather(city) {
     city = cityEl.value;                    
     country = countryEl.value
@@ -146,7 +148,7 @@ function getWeather(city) {
                         </div>`
 
                     var crntDate = document.getElementById('crntDate');
-                    // crntDate.textContent =  CALL DAYJS API
+                    crntDate.textContent =  today.format('dddd, MMMM DD, YYYY')
 
                     var crntIcon = document.getElementById('crntIcon');
                     icon = currentWeather.weather[0].icon;
@@ -180,55 +182,44 @@ function getWeather(city) {
                             var windSpeed
 
                             var dateList = info.list
-                            // console.log(dateList[0].dt_txt)
 
-                            for (var i = 1; i > 6; i++) {
-                                console.log("Hello!")
-
+                            for (var i = 1; i < 6; i++) {               // For loop to iterate through the 5 days of weather 
                                 day = "day" + i;
                                 icon = "d" + i + "Icon";
                                 temp = "d" + i + "Temp";
                                 humidity = "d" + "Humidity";
                                 windSpeed = "d" + i + "Wind";
 
-                                var date = document.getElementById(day);
+                                var date = document.getElementById(day);                // Uses the variables defined above to access the html elements for each corresponding date
                                 var weatherIcon = document.getElementById(icon);
                                 var temperature = document.getElementById(temp);
                                 var humid = document.getElementById(humidity);
                                 var wind = document.getElementById(windSpeed);
 
-                                for(var a = 0; a > dateList.length; a++) {
-                                    console.log(dateList[a].dt_txt)
+                                for(var a = 0; a < dateList.length; a++) {
+                                    var time = dateList[a].dt_txt
+                                    
+                                    var timeRounded = Math.round((today.format('HH')) / 3) * 3
+
+                                    if ((time[11] + time[12]) == timeRounded) {
+                                        alert("Hello!")
+                                        var days = dateList[a].dt_txt.slice(0, 10);
+
+                                        console.log(days)
+
+                                        date.textContent = today($(days)).format('dddd, MMMM DD, YYYY')
+            
+                                        icon = dateList[a].weather[0].icon;
+                                        weatherIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`
+                    
+                                        temperature.textContent = "Temperature: " + dateList[a].main.temp;
+                    
+                                        humid.textContent = "Humidity: " + dateList[a].main.humidity;
+                    
+                                        wind.textContent = "Wind Speeds: " + dateList[a].wind.speed;
+                                    }
                                 }
-
-                                // date.textContent = info.
-            
-                                // var crntIcon = document.getElementById('crntIcon');
-                                // icon = currentWeather.weather[0].icon;
-                                // crntIcon.src = `https://openweathermap.org/img/wn/${icon}@2x.png`
-            
-                                // var crntTemp = document.getElementById('crntTemp');
-                                // crntTemp.textContent = "Temperature: " + currentWeather.main.temp;
-            
-                                // var crntHumidity = document.getElementById('crntHumidity');
-                                // crntHumidity.textContent = "Humidity: " + currentWeather.main.humidity;
-            
-                                // var crntWind = document.getElementById('crntWind');
-                                // crntWind.textContent = "Wind Speeds: " + currentWeather.wind.speed
-
                             }
-
-
-
-
-
-
-
-
-
-
-
-
                         })
                 })
     })
