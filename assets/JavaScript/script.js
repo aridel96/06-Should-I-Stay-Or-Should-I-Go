@@ -8,7 +8,6 @@ var city
 var country
 
 var cityEl = document.getElementById("city"); 
-// var countryEl = document.getElementById("country")
 
 var limit = 5
 var dateCounter = 1     // used to keep track of dates for card
@@ -29,9 +28,11 @@ var icon;
 
 var searchList = document.getElementById('searchList');
 
-var a1
-var a2
-var a3
+var li1
+var li2
+var li3
+
+var previousSearch
 
 var today = dayjs();
 
@@ -51,12 +52,7 @@ function apiCall(geoCodingAPI) {
             latitude = data[0].lat; 
             longitude = data[0].lon;
  
-            // recentSearch[count] = city + ", " + country             // Sets count as the key and the city and state as the value for recentSearch object
-
             city = data[0].name;
-            // console.log(country)
-
-            // recentSearch.push(city + ", " + country)
 
             recentSearch.push(city)
 
@@ -75,10 +71,9 @@ function apiCall(geoCodingAPI) {
                 })
 
                 .then(function(currentWeather) {
-                    // console.log(currentWeather);
 
                     divEl.classList = [];                   // Set the class for the element to a blank array meaning the element has no CSS classes
-                    divEl.classList.add("row", "pt-3");
+                    divEl.classList.add("row", "pt-3", "g-0", "justify-content-center");
 
                     header.innerHTML = `
                         <h1>Should I Stay or Should I Go?</h1>
@@ -110,12 +105,11 @@ function apiCall(geoCodingAPI) {
                         </div>`
 
                     var title = document.querySelector('h2');
-                    // title.textContent = currentWeather.name + ", " + country;
 
                     title.textContent = currentWeather.name;
 
                     divEl.innerHTML =  `
-                        <div class="card" style="width: 18rem;">
+                        <div class="card mx-1" style="width: 18rem;">
                             <div class="card-body text-center">
                                 <h2 id="day1"></h2>
                                 <img id="d1Icon" alt="weather icon"></img>
@@ -125,7 +119,7 @@ function apiCall(geoCodingAPI) {
                             </div>
                         </div>    
 
-                        <div class="card" style="width: 18rem;">
+                        <div class="card mx-1" style="width: 18rem;">
                             <div class="card-body text-center">
                                 <h2 id="day2"></h2>
                                 <img id="d2Icon" alt="weather icon"></img>
@@ -135,7 +129,7 @@ function apiCall(geoCodingAPI) {
                             </div>
                         </div>
                     
-                        <div class="card" style="width: 18rem;">
+                        <div class="card mx-1" style="width: 18rem;">
                             <div class="card-body text-center">
                                 <h2 id="day3"></h2>
                                 <img id="d3Icon" alt="weather icon"></img>
@@ -145,7 +139,7 @@ function apiCall(geoCodingAPI) {
                             </div>
                         </div>
 
-                        <div class="card" style="width: 18rem;">
+                        <div class="card mx-1" style="width: 18rem;">
                             <div class="card-body text-center">
                                 <h2 id="day4"></h2>
                                 <img id="d4Icon" alt="weather icon"></img>
@@ -155,7 +149,7 @@ function apiCall(geoCodingAPI) {
                             </div>
                         </div>
 
-                        <div class="card" style="width: 18rem;">
+                        <div class="card mx-1" style="width: 18rem;">
                             <div class="card-body text-center">
                                 <h2 id="day5"></h2>
                                 <img id="d5Icon" alt="weather icon"></img>
@@ -191,8 +185,6 @@ function apiCall(geoCodingAPI) {
                         })
 
                         .then(function(info) {
-                            // console.log(info);
-
                             var day
                             var temp
                             var icon
@@ -266,18 +258,6 @@ function apiCall(geoCodingAPI) {
 
 function getWeather(city) {
     city = cityEl.value;    
-                    
-    // country = countryEl.value
-
-    // console.log(city + ", " + country)
-
-    // if(usCodes.includes(country)){
-    //     var geoCodingAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${country},${unitedStates}&limit=${limit}&appid=${weatherKey}`;         // GeoCoding API - Provide latitude and longtitude when provided city, state and country code
-    // }
-
-    // else {
-    //     var geoCodingAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${city},${country}&limit=${limit}&appid=${weatherKey}`;         
-    // }
 
     var geoCodingAPI = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=${limit}&appid=${weatherKey}`;         
 
@@ -286,77 +266,46 @@ function getWeather(city) {
 
 
 var footerEl = document.querySelector('footer');
+var blankSpace
 
 if (recentSearch.length >= 1){
     if (recentSearch.length >= 2){
         if (recentSearch.length >= 3){        
-            // var li3 = document.createElement('li');
-            // a3 = document.createElement('a');
 
-            // li3.classList.add("list-group-item", "list-group-item-info");
-            // a3.classList.add("list-group-item-action");
+            var li3 = document.getElementById('li3')
+            li3.textContent = recentSearch[recentSearch.length - 3];                   // Third to last item in array
 
-            var btn3 = document.getElementById('btn3')
-            btn3.textContent = recentSearch[recentSearch.length - 3];
-    
-            // li3.appendChild(a3);
-            // searchList.appendChild(li3);
-
-            city = btn3.innerText;
-            console.log(city)
+            city = li3.innerText;
         
-            btn3.addEventListener('click', function() {
+            li3.addEventListener('click', function() {
                  getRecentSearch(city)
             })
         }
 
-        // var li2 = document.createElement('li');
-        // btn2 = document.createElement('button');
+        var li2 = document.getElementById('li2');
+        li2.textContent = recentSearch[recentSearch.length - 2];                   // Second to last item in array
 
-        // li2.classList.add("list-group-item", "list-group-item-info");
-        // a2.classList.add("list-group-item-action");
-
-        var btn2 = document.getElementById('btn2');
-        btn2.textContent = recentSearch[recentSearch.length - 2];
-
-        // li2.appendChild(a2);
-        // searchList.appendChild(li2);
-
-        city = btn2.innerText;
-        console.log(city)
+        city = li2.innerText;
     
-        btn2.addEventListener('click', function() {
+        li2.addEventListener('click', function() {
              getRecentSearch(city)
         })
 
     }
 
     // footerEl.style.display = 'flex';
-
-    // var li1 = document.createElement('li');
-    // a1 = document.createElement('a');
-
-    // li1.classList.add("list-group-item", "list-group-item-info");
-    // a1.classList.add("list-group-item-action");
     
-    var btn1 = document.getElementById('btn1')
-    btn1.textContent = recentSearch[recentSearch.length - 1];
+    var li1 = document.getElementById('li1')
+    li1.textContent = recentSearch[recentSearch.length - 1];                       // Last item in array
 
-    // li1.appendChild(a1);
-    // searchList.appendChild(li1);
+    city = li1.innerText;
 
-    // var searchArr = a1.textContent.split(",")
-    // city = searchArr[0];
-    city = btn1.innerText;
-    console.log(city)
-    // var newCountry = searchArr[1]
-
-    btn1.addEventListener('click', function() {
+    li1.addEventListener('click', function() {
          getRecentSearch(city)
     })
 } 
 // else {
-//     footerEl.style.display = 'none';
+//      footerEl.style.display = 'none';
 // }
 
 
@@ -364,30 +313,3 @@ if (recentSearch.length >= 1){
 button.addEventListener('click', function() {
     getWeather(city)
 })
-
-
-
-// a2.addEventListener('click', function() {
-//     getWeather(city)
-// })
-// button.addEventListener('click', function() {
-//     getWeather(city)
-// })
-
-// if (window.location.href.split('/')[window.location.href.split('/').length - 1] == 'index.html') {              
-//     button.addEventListener('click', function() {
-//         getWeather(city)
-//     })
-// }
-
-
-
-// {/* <div class="card currentDate" style="width: 18rem;">
-// <div class="card-body text-center">
-//     <h2 id="crntDate"></h2>                   <!--Hook for current date-->
-//     <img id="crntIcon" alt="weather icon"></img>                     <!--Hook for current weather icon-->
-//     <p class="card-text" id="crntTemp">Temperature: </p>
-//     <p class="card-text" id="crntHumidity">Humidity: </p>
-//     <p class="card-text" id="crntWind">Wind Speeds: </p>
-// </div>
-// </div> */}
